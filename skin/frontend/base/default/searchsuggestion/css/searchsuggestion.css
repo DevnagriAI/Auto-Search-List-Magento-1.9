@@ -1,0 +1,48 @@
+.page #search.loading { background:url("../image/preloader2.gif") no-repeat; background-position:95% 50%; background-size:18px 18px; background-color:#FFFFFF; }
+.page .form-search .search-autocomplete { position:absolute; width:100%; }
+.page .form-search .input-text { color:#333333; }
+
+#search_autocomplete ul li.over { background:#F5F4F7; }
+.header .form-search .search-autocomplete li { background:#FFFFFF; }
+.header .form-search .search-autocomplete li:hover { background:#F5F4F7; }
+
+.page .suggestion-list { width:99%; }
+.page .suggestion-list li { width:202px; }
+.page .suggestion-list li a { display:block; }
+.page .suggestion-list li .sug-img { width:60px; display:inline-block; vertical-align:top; }
+.page .suggestion-list li .sug-img img { width:100%; }
+.page .suggestion-list li .sug-name { padding:5px; width:130px; display:inline-block; }
+.page .suggestion-list li .sug-name.full { padding:5px; width:190px; display:inline-block; }
+.page .suggestion-list li .sug-name span { width:100%; display:inline-block; color:#2F2F2F; }
+.page .suggestion-list li .sug-name span.old-price { text-decoration:line-through; color:#2F2F2F; }
+.page .suggestion-list li .sug-name span.price { color:#1E7EC8; }
+
+.page .header .form-search .search-autocomplete li.selected { background:#F2F2F2; }
+
+.page .header .form-search .search-autocomplete li { padding:5px; border:none; }
+.page .header .form-search .search-autocomplete ul { background:#FFFFFF; }
+
+
+.page #search.loading { background:url("../image/preloader2.gif") no-repeat; background-position:top right; background-size:18px 18px; background-color:#FFFFFF; }
+
+.header .form-search .search-autocomplete { position:absolute; width:214px; }
+.page .suggestion-list li:hover { background: none repeat scroll 0 0 #F5F4F7; }
+
+
+.popular-title {
+    background: none repeat scroll 0 0 #FFFFFF;
+    display: block;
+    margin-left: 10px;
+    margin-top: -10px;
+    padding: 0 2px;
+    width: 95px;
+}
+.popular-bottom {
+    border-top: 1px solid;
+    display: block;
+    margin-top: 10px;
+}
+
+
+#search_autocomplete ul li.popular.over { background:none; }
+.page .header .form-search .search-autocomplete li.popular { padding:0; width:100%; }

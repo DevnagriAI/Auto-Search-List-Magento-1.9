@@ -1,0 +1,176 @@
+<?php
+	$catalogSearchHelper =  $this->helper('catalogsearch');
+?>
+<form id="search_mini_form" autocomplete="off" action="<?php echo $catalogSearchHelper->getResultUrl() ?>" method="get">
+    <div class="form-search">
+        <label for="search"><?php echo $this->__('Search:') ?></label>
+        <input id="search" type="text" name="<?php echo $catalogSearchHelper->getQueryParamName() ?>" value="<?php echo $catalogSearchHelper->getEscapedQueryText() ?>" class="input-text" maxlength="<?php echo $catalogSearchHelper->getMaxQueryLength();?>" />
+        <button type="submit" title="<?php echo $this->__('Search') ?>" class="button">
+            <span><span><?php echo $this->__('Search') ?></span></span>
+        </button>
+        <div id="search_autocomplete" class="search-autocomplete"></div>
+        <script type="text/javascript">
+        //<![CDATA[
+            var searchForm = new Varien.searchForm('search_mini_form', 'search', '<?php echo $this->__('Search entire store here...') ?>');
+            //searchForm.initAutocomplete('<?php echo $catalogSearchHelper->getSuggestUrl() ?>', 'search_autocomplete');
+        //]]>
+        </script>
+    </div>
+</form>
+<input type="hidden" value="" id="prevsearch">
+<script type="text/javascript">
+    if (typeof jQuery == 'undefined'){
+        document.write(unescape("%3Cscript src='//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js' type='text/javascript'%3E%3C/script%3E"));
+    }
+</script> 
+<script type="text/javascript">
+	$fourtek = jQuery.noConflict();
+
+	$fourtek("#search_mini_form").submit(function(event) {
+		event.preventDefault();
+	});
+
+	$fourtek(document).ready(function() {
+		var searchSetting = "<?php echo Mage::getStoreConfig("searchsuggestion/searchoption/searchsuggestionsetting"); ?>";
+		var count = 0;
+		
+		$fourtek("#search").on('keyup', function(e) {
+			var keyCode = e.keyCode || e.which;
+			if(keyCode==13){
+				var title = $fourtek("#search_autocomplete ul li.product.over a").attr('href');
+				if(title){
+					window.location = title;
+				}else{
+					var title = $fourtek("#search_autocomplete ul li.tag.over").attr('title');
+					if(title){
+						var currTitle = title.replace(/ /g,"+")
+						var url ="<?php echo $catalogSearchHelper->getResultUrl();?>"+"?q="+currTitle;
+						window.location = url;
+					}else{
+						var term = $fourtek("#search").val();
+						term = $fourtek.trim(term);
+						if(term!=""){
+							var currTitle = term.replace(/ /g,"+")
+							var url ="<?php echo $catalogSearchHelper->getResultUrl();?>"+"?q="+currTitle;
+							window.location = url;
+						}
+					}
+				}	
+			}
+
+			var AjaxData = function(){
+				$fourtek('#search').addClass('loading');
+				var term = $fourtek('#search').val();
+				var pterm = $fourtek('#prevsearch').val();
+				term = $fourtek.trim(term)
+							
+				if(term==""){
+					$fourtek('#search_autocomplete ul.suggestion-list').hide();
+				}
+				var sug = $fourtek('#search_autocomplete ul').html();
+				
+				if(term!="" && pterm!=term){
+					jQuery.ajax({
+						url: "<?php echo $catalogSearchHelper->getSuggestUrl() ?>",
+						data:"q="+term,
+						type:"post",
+						datatype :"html",
+						success:function(data){
+							$fourtek('#search_autocomplete').empty();
+							$fourtek('#search_autocomplete').append(data);
+							$fourtek('#search').removeClass('loading');
+							$fourtek('#prevsearch').val(term);
+							count=0;
+						}
+					});
+				}else{
+					$fourtek('#search').removeClass('loading');
+				}
+
+			}
+
+			if(keyCode!=38 && keyCode!=40 && keyCode!=13){
+				AjaxData();
+			}
+
+			if (keyCode == 40 || keyCode == 38){
+				var css = $fourtek('#search_autocomplete ul.suggestion-list').css('display');
+				if(css){
+					if(css=="none"){
+						var term = $fourtek('#search').val();
+						var pterm = $fourtek('#prevsearch').val();
+						term = $fourtek.trim(term)
+						if(pterm==term){
+							$fourtek('#search_autocomplete ul.suggestion-list').css('display','block');
+						}
+						else{
+							AjaxData();
+						}
+					}
+				}
+
+			}	
+
+			var len = $fourtek("#search_autocomplete ul li").length;
+			var tagLen = $fourtek("#search_autocomplete ul li.tag").length;
+			
+			if (keyCode == 40){
+				count++;
+				if(searchSetting==2){
+					if(tagLen>0){
+						if(count==tagLen+1){
+							count=count+1;
+						}	
+					}
+				}	
+				if(count>len){
+					count=1;
+				}
+				fourtek(count);
+			}
+			if(len>0){
+				if (keyCode == 38){
+					count--;
+					if(searchSetting==2){
+						if(tagLen>0){
+							if(count==tagLen+1){
+								count=count-1;
+							}	
+						}
+					}	
+					if(count<1){
+						count=len;
+					}
+					fourtek(count);
+				}
+			}
+
+		});
+
+		$fourtek("body").delegate("#search_autocomplete ul li.tag, #search_autocomplete ul li.product","click",function(event){
+			var curr = $fourtek(this).attr('title');
+			var currTitle = curr.replace(/ /g,"+")
+			var url ="<?php echo $catalogSearchHelper->getResultUrl();?>"+"?q="+currTitle;
+			$fourtek("#search").val(curr)
+			window.location = url;
+		});
+		
+		var fourtek = function(count){
+			//console.log(count)
+			var curr = $fourtek("#search_autocomplete ul li:nth-child("+count+")").attr('title');
+			var css = $fourtek('#search_autocomplete ul.suggestion-list').css('display');
+			if(css=="block"){
+				if(curr){
+					$fourtek("#search_autocomplete ul li").removeClass('over');
+					$fourtek("#search_autocomplete ul li:nth-child("+count+")").addClass('over');
+					$fourtek("#search").val(curr);
+				}
+			}
+		}
+
+		$fourtek("body").on('click', function() {
+			$fourtek('#search_autocomplete ul.suggestion-list').hide();
+			count=0;
+		});
+	});
+</script>

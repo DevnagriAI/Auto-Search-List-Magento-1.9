@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Fourtek_Searchsuggestion>
+            <active>true</active>
+            <codePool>local</codePool>
+        </Fourtek_Searchsuggestion>
+    </modules>
+</config>
