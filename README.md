@@ -19,3 +19,7 @@ Highlights Searched Keywords
 The searched keywords are highlighted in the search results which makes a relationship between the results obtained and the desired product, that helps to filter the results faster.
 Better user experience.
 Highlights the searched keywords in results.
+
+
+Author 
+Vipin1988
