@@ -6,7 +6,17 @@
 .header .form-search .search-autocomplete li { background:#FFFFFF; }
 .header .form-search .search-autocomplete li:hover { background:#F5F4F7; }
 
-.page .suggestion-list { width:99%; }
+/* default width for larger screens */
+.page .suggestion-list { 
+  width: 220%; 
+}
+
+/* adjust width for screens smaller than 768px */
+@media screen and (max-width: 768px) {
+  .page .suggestion-list {
+    width: 150%;
+  }
+}
 .page .suggestion-list li { width:202px; }
 .page .suggestion-list li a { display:block; }
 .page .suggestion-list li .sug-img { width:60px; display:inline-block; vertical-align:top; }

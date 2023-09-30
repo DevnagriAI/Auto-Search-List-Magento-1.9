@@ -219,7 +219,7 @@
 					$dateToday = date('Y-m-d H:i:s');
 					$specialFromDate = $item->getSpecialFromDate();
 					$specialToDate = $item->getSpecialToDate();
-					$price = (float) $item->getPrice();
+					$price = (float) $item->getFinalPrice();
 					$specialPrice = (float) $item->getSpecialPrice();
 								
 					if($dateToday>=$specialFromDate && $dateToday<=$specialToDate){
